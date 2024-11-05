@@ -1,0 +1,2 @@
+#define VERSION_MAJOR @dead_hand_VERSION_MAJOR@
+#define VERSION_MINOR @dead_hand_VERSION_MINOR@
