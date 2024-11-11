@@ -6,7 +6,8 @@ set(
     src/main.cpp
     src/cli/cli.cpp
     src/config/config.cpp
-    src/util/url.cpp
+    src/util/www.cpp
+    src/util/email.cpp
 
     PARENT_SCOPE
 )

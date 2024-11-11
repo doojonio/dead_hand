@@ -4,14 +4,14 @@
 #include <vector>
 
 #include "util/http.h"
-#include "util/url.h"
+#include "util/www.h"
 
 namespace comms {
     struct Attachment {
         std::string id;
         std::string filename;
-        net::MimeType mime_type;
-        std::vector<net::Url> urls;
+        www::MimeType mime_type;
+        std::vector<www::Url> urls;
         // app::Crypto crypto;
     };
 

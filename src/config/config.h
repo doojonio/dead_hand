@@ -6,22 +6,22 @@
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
 
-#include "util/url.h"
+#include "util/www.h"
 
 using json = nlohmann::json;
 
-namespace app {
+namespace cfg {
     struct Attachment {
-        std::vector<net::Url> urls;
+        std::vector<www::Url> urls;
     };
 
     struct Group;
 
     class Config {
     public:
-        void operator<<(std::string&& content) {
-            // json data = json::parse(content);
-        };
+        static void setup_config_from_url(Config& config, www::Url url);
+
+        void operator<<(www::Url content);
 
     private:
         std::vector<Attachment> attachments;

@@ -11,7 +11,7 @@ namespace comms {
 
     class Channel {
     public:
-        virtual void send_message(std::unique_ptr<Message> message);
+        virtual void send_message(Message&);
 
     protected:
         ChannelType type;

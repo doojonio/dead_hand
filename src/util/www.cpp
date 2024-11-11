@@ -1,4 +1,4 @@
-#include "url.h"
+#include "www.h"
 #include <curl/curl.h>
 
 #define CURL_PART(name, part)                                       \
@@ -13,15 +13,19 @@
         return std::move(result);                                   \
     }                                                               \
 
-namespace net {
-    void net::Url::parse_value() {
+namespace www {
+    void Url::parse_value() {
         if (curl_url_set(url, CURLUPART_URL, value.c_str(), 0)) {
             throw InvalidUrlException(value);
         }
     }
 
-    cpr::Url net::Url::get_cpr_url() {
+    cpr::Url Url::get_cpr_url() {
         return cpr::Url(value);
+    }
+
+    std::string Url::get() {
+        return value;
     }
 
     CURL_PART(scheme, SCHEME)

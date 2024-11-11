@@ -1,5 +1,5 @@
 #include "cli/cli.h"
-#include "util/url.h"
+#include "util/www.h"
 
 
 namespace app {
@@ -11,12 +11,12 @@ namespace app {
         parser.parse_args(argc, argv);
     };
 
-    std::optional<net::Url> Cli::get_url() {
+    std::optional<www::Url> Cli::get_url() {
         if (auto val = parser.present<std::string>("--url")) {
             try {
-                return net::Url(val.value());
+                return www::Url(val.value());
             }
-            catch (net::InvalidUrlException& e) {
+            catch (www::InvalidUrlException& e) {
                 return std::nullopt;
             }
         }
