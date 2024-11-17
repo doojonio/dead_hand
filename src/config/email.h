@@ -27,5 +27,12 @@ namespace cfg {
         }
     };
 
+    struct EmailRecipientGroup : RecipientGroup {
+        RecipientGroup::Type type = RecipientGroup::Type::EMAIL;
+        std::vector<email::Email> emails;
+
+        EmailRecipientGroup(json& j);
+    };
+
 
 } // namespace cfg
