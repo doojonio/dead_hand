@@ -1,5 +1,6 @@
 #include <magic_enum/magic_enum.hpp>
 #include <nlohmann/json.hpp>
+#include <format>
 
 #include "config/config.h"
 #include "config/base.h"
@@ -21,7 +22,7 @@ namespace cfg {
             // TODO
         }
 
-        if (jf.contains("attachments") && jf["attachments"].is_array()) {
+        if (jf.contains("attachments") && jf["attachments"].is_object()) {
             add_attachments(jf["attachments"]);
         }
 
@@ -29,11 +30,11 @@ namespace cfg {
             add_channels(jf["channels"]);
         }
 
-        if (jf.contains("recipients_groups") && jf["recipients_groups"].is_array()) {
+        if (jf.contains("recipients_groups") && jf["recipients_groups"].is_object()) {
             add_recipients_groups(jf["recipients_groups"]);
         }
 
-        if (jf.contains("messages") && jf["messages"].is_array()) {
+        if (jf.contains("messages") && jf["messages"].is_object()) {
             add_messages(jf["messages"]);
         }
     }
@@ -45,8 +46,11 @@ namespace cfg {
         for (auto& [name, j_ch] : j_channels.items()) {
             auto type = magic_enum::enum_cast<Channel::Type>(j_ch.at("type").get<std::string>(), magic_enum::case_insensitive);
 
-            if (type == Channel::Type::EMAIL) {
-                channels.push_back(std::make_shared<EmailChannel>(j_ch));
+            if (!type) {
+                throw InvalidConfigException(std::format("'{}' is invalid channel type", j_ch.at("type").get<std::string>()));
+            }
+            else if (type == Channel::Type::EMAIL) {
+                channels[name] = std::make_shared<const EmailChannel>(j_ch);
             }
         }
     }

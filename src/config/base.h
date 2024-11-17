@@ -6,5 +6,7 @@ namespace cfg {
             EMAIL
         };
         Channel::Type type;
+
+        virtual ~Channel() {}
     };
 } // namespace cfg

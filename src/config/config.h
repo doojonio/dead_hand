@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
 
 #include <cpr/cpr.h>
 #include <nlohmann/json.hpp>
@@ -12,12 +11,25 @@
 using json = nlohmann::json;
 
 namespace cfg {
+    class InvalidConfigException : public std::exception {
+    public:
+        InvalidConfigException(std::string message) : message("Invalid config: " + message) {};
+
+        const char* what() const noexcept override {
+            return message.c_str();
+        }
+
+    private:
+        std::string message;
+    };
+
+
     class Config {
     public:
         void operator<<(www::Url content);
 
     private:
-        std::vector<std::shared_ptr<Channel>> channels;
+        std::unordered_map<std::string, std::shared_ptr<const Channel>> channels;
 
         void add_attachments(json j_attachments);
         void add_channels(json j_channels);
