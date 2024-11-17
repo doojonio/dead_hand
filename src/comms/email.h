@@ -5,19 +5,23 @@
 #include <mailio/message.hpp>
 #include <mailio/smtp.hpp>
 
-#include "base/channel.h"
-#include "base/message.h"
 #include "util/www.h"
 #include "util/email.h"
 
 namespace comms {
-    class EmailChannel : public Channel {
-    public:
-        enum class AuthMethod {NONE, LOGIN, STARTTLS};
+    class EmailMessage {
+        std::string subject;
+        std::string body;
+    };
 
-        void send_message(Message&) override;
+    class EmailRecipientsGroup {
+    };
+
+    class EmailChannel {
+    public:
+        enum class AuthMethod { NONE, LOGIN, START_TLS };
+        void send(EmailMessage&);
     private:
-        ChannelType type = ChannelType::EMAIL;
         www::Host host;
         uint port;
         email::Email auth_email;
@@ -25,9 +29,4 @@ namespace comms {
         AuthMethod method;
     };
 
-    class EmailMessage : Message {
-        MessageType type = MessageType::EMAIL;
-        std::string subject;
-        std::string body;
-    };
 } // namespace app
