@@ -31,11 +31,9 @@ namespace cfg {
     private:
         std::unordered_map<std::string, std::shared_ptr<const Channel>> channels;
         std::unordered_map<std::string, std::shared_ptr<const RecipientGroup>> rgroups;
+        // std::unordered_map<std::string, std::shared_ptr<const Attachment>> attachments;
+        std::unordered_map<std::string, std::shared_ptr<const Message>> messages;
 
-        void add_channels(json& j_channels);
-        void add_recipients_groups(json& j_rgroups);
-        void add_attachments(json& j_attachments);
-        void add_messages(json& j_msgs);
         void add_protocols(json& j_protocols);
     };
 

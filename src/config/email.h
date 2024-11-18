@@ -34,5 +34,21 @@ namespace cfg {
         EmailRecipientGroup(json& j);
     };
 
+    struct EmailMessage : Message {
+        RecipientGroup::Type type = RecipientGroup::Type::EMAIL;
+        std::string channel;
+        std::string rgroup;
+        std::string subject;
+        std::string body;
+        std::vector<std::string> attachments;
+
+        EmailMessage(json& j) :
+            channel(j.at("channel").get<std::string>()),
+            rgroup(j.at("recipient_group").get<std::string>()),
+            subject(j.at("subject").get<std::string>()),
+            body(j.at("body").get<std::string>()) {
+        };
+    };
+
 
 } // namespace cfg
