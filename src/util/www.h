@@ -8,37 +8,12 @@
 #include <curl/curl.h>
 
 namespace www {
-    class InvalidUrlException : public std::exception {
-    public:
-        InvalidUrlException(std::string url) : message("Invalid URL: " + url) {};
-
-        const char* what() const noexcept override {
-            return message.c_str();
-        }
-
-    private:
-        std::string message;
-    };
-
-    class InvalidHostException : public std::exception {
-    public:
-        InvalidHostException(std::string host) : message("Invalid HOST: " + host) {};
-
-        const char* what() const noexcept override {
-            return message.c_str();
-        }
-
-    private:
-        std::string message;
-    };
-
-
     class Host {
     public:
         Host(std::string value) : value(value) {
             std::regex re("^[^\\d.][\\w.]+"); // I don't care
             if (!std::regex_match(value, re)) {
-                throw InvalidHostException(value);
+                throw std::invalid_argument(std::format("invalid host: {}", value));
             }
         };
 

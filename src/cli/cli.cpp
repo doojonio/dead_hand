@@ -16,7 +16,7 @@ namespace app {
             try {
                 return www::Url(val.value());
             }
-            catch (www::InvalidUrlException& e) {
+            catch (std::invalid_argument& e) {
                 return std::nullopt;
             }
         }

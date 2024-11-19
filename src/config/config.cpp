@@ -19,7 +19,7 @@ namespace cfg {
                 throw InvalidConfigException(std::format("'{}' is invalid type", j_ent.at("type").get<std::string>()));
             }
             else if (type == T::Type::EMAIL) {
-                add_to[name] = std::make_shared<const TEmail>(j_ent);
+                add_to[name] = std::make_shared<const TEmail>(T::Id::register_id(name), j_ent);
             }
         }
     }

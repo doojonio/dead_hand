@@ -1,3 +1,6 @@
+#include <format>
+#include <stdexcept>
+
 #include "util/www.h"
 #include <curl/curl.h>
 
@@ -16,7 +19,7 @@
 namespace www {
     void Url::parse_value() {
         if (curl_url_set(url, CURLUPART_URL, value.c_str(), 0)) {
-            throw InvalidUrlException(value);
+            throw std::invalid_argument(std::format("invalid url: {}", value));
         }
     }
 
