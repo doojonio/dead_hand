@@ -29,10 +29,11 @@ namespace cfg {
         void operator<<(www::Url content);
 
     private:
-        std::unordered_map<std::string, std::shared_ptr<const Channel>> channels;
-        std::unordered_map<std::string, std::shared_ptr<const RecipientGroup>> rgroups;
+        std::unordered_map<Channel::Id, std::shared_ptr<const Channel>, CfgIdHash<Channel::Id>> channels;
+        std::unordered_map<RecipientGroup::Id, std::shared_ptr<const RecipientGroup>, CfgIdHash<RecipientGroup::Id>> rgroups;
         // std::unordered_map<std::string, std::shared_ptr<const Attachment>> attachments;
-        std::unordered_map<std::string, std::shared_ptr<const Message>> messages;
+        std::unordered_map<Message::Id, std::shared_ptr<const Message>, CfgIdHash<Message::Id>> messages;
+        std::unordered_map<Protocol::Id, std::shared_ptr<const Protocol>, CfgIdHash<Protocol::Id>> protocols;
 
         void add_protocols(json& j_protocols);
     };

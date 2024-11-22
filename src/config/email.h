@@ -26,7 +26,6 @@ namespace cfg {
             port(j.at("port").get<uint>()),
             email(email::Email(j.at("auth_email").get<std::string>())),
             pass(j.at("auth_pass").get<std::string>()) {
-            ;
         }
     };
 
@@ -55,6 +54,5 @@ namespace cfg {
             body(j.at("body").get<std::string>()) {
         };
     };
-
 
 } // namespace cfg

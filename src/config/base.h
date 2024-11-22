@@ -32,17 +32,32 @@ namespace cfg {
             return TId(id);
         };
 
-        std::string get() { assert(value != ""); return value; }
+        std::string get() const {
+            assert(value != ""); return value;
+        }
+
+        bool operator==(const CfgId& other) const {
+            return value == other.get();
+        }
     };
     template <typename TId>
     std::unordered_set<std::string> CfgId<TId>::registered_ids;
+
+    template <typename T>
+    struct CfgIdHash {
+        size_t operator()(const T& obj) const {
+            return std::hash<std::string>{}(obj.get());
+        }
+    };
+
+
 
     struct Channel {
         enum class Type {
             EMAIL
         };
         class Id : public CfgId<Channel::Id> {
-            // static std::unordered_set<std::string> registered_ids;
+            static std::unordered_set<std::string> registered_ids;
         };
 
         Channel::Id id;
@@ -56,8 +71,7 @@ namespace cfg {
             EMAIL
         };
         class Id : public CfgId<RecipientGroup::Id> {
-        // protected:
-            // static std::unordered_set<std::string> registered_ids;
+            static std::unordered_set<std::string> registered_ids;
         };
 
         RecipientGroup::Id id;
@@ -71,8 +85,7 @@ namespace cfg {
             EMAIL
         };
         class Id : public CfgId<Message::Id> {
-        // protected:
-            // static std::unordered_set<std::string> registered_ids;
+            static std::unordered_set<std::string> registered_ids;
         };
 
         Message::Id id;
@@ -83,5 +96,21 @@ namespace cfg {
 
         virtual ~Message() {}
 
+    };
+
+    struct Protocol {
+        enum class Type {
+            DELAY
+        };
+
+        class Id : public CfgId<Protocol::Id> {
+            static std::unordered_set<std::string> registered_ids;
+        };
+
+        Protocol::Id id;
+        Protocol::Type type;
+        std::vector<Message::Id> messages;
+
+        virtual ~Protocol() {}
     };
 } // namespace cfg

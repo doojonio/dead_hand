@@ -12,7 +12,7 @@ namespace cfg {
         }
 
         for (const auto& jemail : jemails) {
-            emails.push_back(email::Email(jemail.get<std::string>()));
+            emails.emplace_back(jemail.get<std::string>());
         }
     }
 

@@ -5,13 +5,14 @@
 #include "config/config.h"
 #include "config/base.h"
 #include "config/email.h"
+#include "config/protocols.h"
 #include "config.h"
 
 using json = nlohmann::json;
 
 namespace cfg {
-    template <typename T, typename TEmail>
-    void add_comms_enitity(json& j, std::unordered_map<std::string, std::shared_ptr<const T>>& add_to) {
+    template <typename T, typename TEmail, typename TMap>
+    void add_comms_enitity(json& j, TMap& add_to) {
         for (auto& [name, j_ent] : j.items()) {
             auto type = magic_enum::enum_cast<typename T::Type>(j_ent.at("type").get<std::string>(), magic_enum::case_insensitive);
 
@@ -19,7 +20,8 @@ namespace cfg {
                 throw InvalidConfigException(std::format("'{}' is invalid type", j_ent.at("type").get<std::string>()));
             }
             else if (type == T::Type::EMAIL) {
-                add_to[name] = std::make_shared<const TEmail>(T::Id::register_id(name), j_ent);
+                auto id = T::Id::register_id(name);
+                add_to[id] = std::make_shared<const TEmail>(id, j_ent);
             }
         }
     }
@@ -67,6 +69,17 @@ namespace cfg {
     }
 
     void Config::add_protocols(json& j_protocols) {
+        for (auto& [name, j_p] : j_protocols.items()) {
+            auto type = magic_enum::enum_cast<Protocol::Type>(j_p.at("type").get<std::string>(), magic_enum::case_insensitive);
+
+            if (!type) {
+                throw InvalidConfigException(std::format("{} is invalid protocol type", j_p.at("type").get<std::string>()));
+            }
+            else if (type == Protocol::Type::DELAY) {
+                auto id = Protocol::Id::register_id(name);
+                protocols[id] = std::make_shared<DelayProtocol>(id, j_p);
+            }
+        }
     }
 } // namespace cfg
 
