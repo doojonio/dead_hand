@@ -5,7 +5,7 @@
 #include <curl/curl.h>
 
 #define CURL_PART(name, part)                                       \
-    std::optional<std::string> Url::get_##name() {                  \
+    std::optional<std::string> Url::get_##name() const {            \
         char *buf;                                                  \
         if (auto rc = curl_url_get(url, CURLUPART_##part, &buf, 0)) \
         {                                                           \
@@ -16,18 +16,18 @@
         return std::move(result);                                   \
     }                                                               \
 
-namespace www {
+namespace util {
     void Url::parse_value() {
         if (curl_url_set(url, CURLUPART_URL, value.c_str(), 0)) {
             throw std::invalid_argument(std::format("invalid url: {}", value));
         }
     }
 
-    cpr::Url Url::get_cpr_url() {
+    cpr::Url Url::get_cpr_url() const {
         return cpr::Url(value);
     }
 
-    std::string Url::get() {
+    std::string Url::get() const {
         return value;
     }
 

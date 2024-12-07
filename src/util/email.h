@@ -3,14 +3,14 @@
 #include <string>
 
 
-namespace email {
+namespace util {
     class Email {
     public:
-        Email(std::string value) : value(value) {
+        inline Email(std::string value) : value(value) {
             validate();
         }
 
-        std::string get();
+        [[nodiscard]] std::string get() const;
 
     private:
         std::string value;

@@ -4,11 +4,10 @@ set(
     DH_SRC
 
     src/main.cpp
-    src/cli/cli.cpp
-    src/config/config.cpp
-    src/config/email.cpp
+    src/cli.cpp
     src/util/www.cpp
     src/util/email.cpp
+    src/comms/email.cpp
 
     PARENT_SCOPE
 )

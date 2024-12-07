@@ -7,17 +7,17 @@
 #include <cpr/cpr.h>
 #include <curl/curl.h>
 
-namespace www {
+namespace util {
     class Host {
     public:
-        Host(std::string value) : value(value) {
+        inline Host(std::string value) : value(value) {
             std::regex re("^[^\\d.][\\w.]+"); // I don't care
             if (!std::regex_match(value, re)) {
                 throw std::invalid_argument(std::format("invalid host: {}", value));
             }
         };
 
-        std::string get() {
+        [[nodiscard]] inline std::string get() const {
             return value;
         };
     private:
@@ -26,20 +26,19 @@ namespace www {
 
     class Url {
     public:
-        Url(std::string value_) : value(std::move(value_)) {
+        inline Url(std::string value_) : value(std::move(value_)) {
             parse_value();
         }
 
-        cpr::Url get_cpr_url();
-        std::string get();
-
-        std::optional<std::string> get_scheme();
-        std::optional<std::string> get_user();
-        std::optional<std::string> get_password();
-        std::optional<std::string> get_host();
-        std::optional<std::string> get_port();
-        std::optional<std::string> get_path();
-        std::optional<std::string> get_query();
+        [[nodiscard]] cpr::Url get_cpr_url() const;
+        [[nodiscard]] std::string get() const;
+        [[nodiscard]] std::optional<std::string> get_scheme() const;
+        [[nodiscard]] std::optional<std::string> get_user() const;
+        [[nodiscard]] std::optional<std::string> get_password() const;
+        [[nodiscard]] std::optional<std::string> get_host() const;
+        [[nodiscard]] std::optional<std::string> get_port() const;
+        [[nodiscard]] std::optional<std::string> get_path() const;
+        [[nodiscard]] std::optional<std::string> get_query() const;
 
         friend inline auto& operator<<(std::ostream& os, Url& url) {
             os << url.value;
