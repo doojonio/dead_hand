@@ -7,7 +7,9 @@
 
 #include "cli.h"
 #include "in/version.h"
-#include "registry.h"
+#include "ids.h"
+
+#include "registries.h"
 
 #include "comms/email.h"
 #include <nlohmann/json.hpp>
@@ -16,18 +18,21 @@ constexpr std::string NAME = "dead_hand";
 constexpr std::string INCOMPILED_URL = "file:///asdjkk";
 
 void tttt(const util::Url& url) {
+    auto j = nlohmann::json::parse(std::ifstream(url.get_path().value()));
+    registries::email_channels.add("ch_email", j["channels"]["ch_email"]);
+    auto ch = registries::email_channels.get(ChannelId(std::string("ch_email")));
+
     AttachmentId::register_id("tzuyu_image.jpg");
-    ChannelId::register_id("ch_email");
+    // ChannelId::register_id("ch_email");
     MessageId::register_id("msg_email");
     RecipientGroupId::register_id("rg_email");
 
-    auto j = nlohmann::json::parse(std::ifstream(url.get_path().value()));
     auto att = comms::Attachment(j["attachments"]["tzuyu_image.jpg"]);
-    auto ech = comms::EmailChannel(j["channels"]["ch_email"]);
+    // auto ech = comms::EmailChannel(j["channels"]["ch_email"]);
     auto emes = comms::EmailMessage(j["messages"]["msg_email"]);
     auto rg = comms::EmailRecipientGroup(j["recipients_groups"]["rg_email"]);
 
-    ech.send(emes, rg, att);
+    // ch.send(emes, rg, att);
 }
 
 int main(int argc, char* argv[]) {

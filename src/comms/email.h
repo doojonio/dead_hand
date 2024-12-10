@@ -35,11 +35,11 @@ namespace comms {
             rgroup(RecipientGroupId(j.at("recipient_group").get<std::string>())),
             subject(j.at("subject").get<std::string>()),
             body(j.at("body").get<std::string>()) {
-                if(j.at("attachments").is_array()) {
-                    for (auto& at_id : j.at("attachments")) {
-                        attachments.emplace_back(at_id.get<std::string>());
-                    }
+            if (j.at("attachments").is_array()) {
+                for (auto& at_id : j.at("attachments")) {
+                    attachments.emplace_back(at_id.get<std::string>());
                 }
+            }
         };
     };
 
@@ -51,22 +51,43 @@ namespace comms {
         util::Email email;
         std::string login;
         std::string pass;
-
+        int timeout_ms;
         mailio::smtps conn;
     public:
+        [[nodiscard]] inline std::string ser() {
+            auto j = json{
+                {"host", host.get()},
+                {"port", port},
+                {"email", email.get()},
+                {"auth_login", login},
+                {"auth_pass", pass},
+                {"timeout_ms", timeout_ms},
+            };
+
+            return j.dump();
+        };
+
+        [[nodiscard]] static EmailChannel de(const std::string& s) {
+            return EmailChannel(json::parse(s));
+        };
+
         EmailChannel(const json& j) :
             host(util::Host(j.at("host").get<std::string>())),
             port(j.at("port").get<uint>()),
             email(util::Email(j.at("email").get<std::string>())),
             login(j.at("auth_login").get<std::string>()),
             pass(j.at("auth_pass").get<std::string>()),
+            timeout_ms(
+                j.contains("timeout_ms") &&
+                j.at("timeout_ms").is_number()
+                ? j.at("timeout_ms").get<int>()
+                : DEFAULT_TIMEOUT
+            ),
             conn(mailio::smtps(
                 host.get(),
                 port,
                 std::chrono::milliseconds(
-                    j.at("timeout_ms").is_number()
-                    ? j.at("timeout_ms").get<int>()
-                    : DEFAULT_TIMEOUT
+                    timeout_ms
                 ))) {
             mailio::dialog_ssl::ssl_options_t ssl_options;
             ssl_options.method = boost::asio::ssl::context::tls_client;
