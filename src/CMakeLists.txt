@@ -7,6 +7,7 @@ set(
     src/cli.cpp
     src/util/www.cpp
     src/util/email.cpp
+    src/util/crypto.cpp
     src/comms/email.cpp
 
     PARENT_SCOPE

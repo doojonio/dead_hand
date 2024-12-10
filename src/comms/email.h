@@ -10,6 +10,7 @@
 #include "ids.h"
 #include "util/www.h"
 #include "util/email.h"
+#include "util/serializable.h"
 
 using json = nlohmann::json;
 
@@ -43,7 +44,7 @@ namespace comms {
         };
     };
 
-    class EmailChannel {
+    class EmailChannel : public util::Serializable<EmailChannel> {
         static const int DEFAULT_TIMEOUT = 10000;
 
         util::Host host;
@@ -54,7 +55,7 @@ namespace comms {
         int timeout_ms;
         mailio::smtps conn;
     public:
-        [[nodiscard]] inline std::string ser() {
+        [[nodiscard]] inline std::string ser() override {
             auto j = json{
                 {"host", host.get()},
                 {"port", port},
@@ -67,7 +68,7 @@ namespace comms {
             return j.dump();
         };
 
-        [[nodiscard]] static EmailChannel de(const std::string& s) {
+        [[nodiscard]] static EmailChannel de_impl(const std::string& s) {
             return EmailChannel(json::parse(s));
         };
 
