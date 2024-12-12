@@ -43,11 +43,16 @@ namespace util {
 
     template<typename T>
     class Crypted {
+    public:
+        using DeFunc = std::unique_ptr<T>(*)(const std::string&);
+    private:
         CryptoLine cline;
         std::string value;
+        DeFunc de;
     public:
-        inline Crypted(T&& v) : value(cline.encrypt(v.ser())) { std::cout << value << std::endl; }
-        [[nodiscard]] inline T decrypt() { return T::de(cline.decrypt(value)); };
+
+        inline Crypted(std::unique_ptr<T> v, DeFunc de = T::de) : value(cline.encrypt(v->ser())), de(de) { std::cout << value << std::endl; }
+        [[nodiscard]] inline std::unique_ptr<T> decrypt() { return de(cline.decrypt(value)); };
     };
 
 

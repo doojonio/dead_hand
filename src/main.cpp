@@ -1,6 +1,7 @@
 #include <format>
 #include <iostream>
 
+#include <memory>
 #include <cpr/cpr.h>
 #include <iostream>
 #include <magic_enum/magic_enum.hpp>
@@ -19,20 +20,23 @@ constexpr std::string INCOMPILED_URL = "file:///asdjkk";
 
 void tttt(const util::Url& url) {
     auto j = nlohmann::json::parse(std::ifstream(url.get_path().value()));
-    registries::email_channels.add("ch_email", j["channels"]["ch_email"]);
-    auto ch = registries::email_channels.get(ChannelId(std::string("ch_email")));
-
+    registries::channels.add("ch_email", std::make_unique<comms::EmailChannel>(j["channels"]["ch_email"]), comms::EmailChannel::de_base);
+    registries::rgroups.add("rg_email", std::make_unique<comms::EmailRecipientGroup>(j["recipients_groups"]["rg_email"]), comms::EmailRecipientGroup::de_base);
     AttachmentId::register_id("tzuyu_image.jpg");
-    // ChannelId::register_id("ch_email");
-    MessageId::register_id("msg_email");
-    RecipientGroupId::register_id("rg_email");
+    registries::messages.add("msg_email", std::make_unique<comms::EmailMessage>(j["messages"]["msg_email"]), comms::EmailMessage::de_base);
 
-    auto att = comms::Attachment(j["attachments"]["tzuyu_image.jpg"]);
+    // MessageId::register_id("msg_email");
+    // RecipientGroupId::register_id("rg_email");
+
+    auto ch = registries::channels.get(ChannelId(std::string("ch_email")));
+    auto rg = registries::rgroups.get(RecipientGroupId(std::string("rg_email")));
+    // auto msg = registries::messages.get(MessageId(std::string("ch_email")));
+    // auto att = comms::Attachment(j["attachments"]["tzuyu_image.jpg"]);
     // auto ech = comms::EmailChannel(j["channels"]["ch_email"]);
-    auto emes = comms::EmailMessage(j["messages"]["msg_email"]);
-    auto rg = comms::EmailRecipientGroup(j["recipients_groups"]["rg_email"]);
+    // auto emes = comms::EmailMessage(j["messages"]["msg_email"]);
+    // auto rg = comms::EmailRecipientGroup();
 
-    // ch.send(emes, rg, att);
+    ch->send(registries::messages.get(MessageId(std::string("msg_email"))));
 }
 
 int main(int argc, char* argv[]) {

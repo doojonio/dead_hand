@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <algorithm>
 #include <mailio/message.hpp>
 #include <mailio/smtp.hpp>
 #include <format>
@@ -9,15 +10,35 @@
 #include "comms/exc.h"
 #include "ids.h"
 #include "util/www.h"
+#include <memory>
 #include "util/email.h"
 #include "util/serializable.h"
+#include "comms/base.h"
 
 using json = nlohmann::json;
 
 namespace comms {
 
-    struct EmailRecipientGroup {
+    struct EmailRecipientGroup : public BaseRecipientGroup {
         std::vector<util::Email> emails;
+        [[nodiscard]] inline std::string ser() {
+            std::vector<std::string> emails_str(emails.size());
+            // потому что могу
+            std::transform(emails.cbegin(), emails.cend(), emails_str.begin(), [](const auto& e) {return e.get();});
+            auto j = json{
+                {"emails", emails_str},
+            };
+
+            return j.dump();
+        };
+
+        [[nodiscard]] static std::unique_ptr<EmailRecipientGroup> de(const std::string& s) {
+            return std::make_unique<EmailRecipientGroup>(json::parse(s));
+        };
+
+        [[nodiscard]] static std::unique_ptr<BaseRecipientGroup> de_base(const std::string& s) {
+            return de(s);
+        };
         EmailRecipientGroup(const json& j) {
             for (auto& e : j["emails"]) {
                 emails.emplace_back(e);
@@ -25,7 +46,7 @@ namespace comms {
         }
     };
 
-    struct EmailMessage {
+    struct EmailMessage : public BaseMessage {
         ChannelId channel;
         RecipientGroupId rgroup;
         std::string subject;
@@ -42,9 +63,31 @@ namespace comms {
                 }
             }
         };
+        [[nodiscard]] inline std::string ser() {
+            std::vector<std::string> at_str(attachments.size());
+            // потому что могу
+            std::transform(attachments.cbegin(), attachments.cend(), at_str.begin(), [](const auto& a) {return a.get();});
+            auto j = json{
+                {"channel", channel.get()},
+                {"recipient_group", rgroup.get()},
+                {"subject", subject},
+                {"body", body},
+                {"attachments", at_str},
+            };
+
+            return j.dump();
+        };
+
+        [[nodiscard]] static std::unique_ptr<EmailMessage> de(const std::string& s) {
+            return std::make_unique<EmailMessage>(json::parse(s));
+        };
+
+        [[nodiscard]] static std::unique_ptr<BaseMessage> de_base(const std::string& s) {
+            return de(s);
+        };
     };
 
-    class EmailChannel : public util::Serializable<EmailChannel> {
+    class EmailChannel : public BaseChannel {
         static const int DEFAULT_TIMEOUT = 10000;
 
         util::Host host;
@@ -55,7 +98,7 @@ namespace comms {
         int timeout_ms;
         mailio::smtps conn;
     public:
-        [[nodiscard]] inline std::string ser() override {
+        [[nodiscard]] inline std::string ser() {
             auto j = json{
                 {"host", host.get()},
                 {"port", port},
@@ -68,8 +111,12 @@ namespace comms {
             return j.dump();
         };
 
-        [[nodiscard]] static EmailChannel de_impl(const std::string& s) {
-            return EmailChannel(json::parse(s));
+        [[nodiscard]] static std::unique_ptr<EmailChannel> de(const std::string& s) {
+            return std::make_unique<EmailChannel>(json::parse(s));
+        };
+
+        [[nodiscard]] static std::unique_ptr<BaseChannel> de_base(const std::string& s) {
+            return de(s);
         };
 
         EmailChannel(const json& j) :
@@ -103,7 +150,7 @@ namespace comms {
             }
         }
 
-        void send(const EmailMessage& msg, const EmailRecipientGroup& rg, const Attachment& at);
+        void send(std::unique_ptr<BaseMessage> msg) override;
     };
 
 } // namespace app

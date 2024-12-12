@@ -3,9 +3,9 @@
 #include "comms/email.h"
 
 namespace registries {
-    static util::CryptoRegistry<ChannelId, comms::EmailChannel> email_channels;
-    static util::CryptoRegistry<MessageId, comms::EmailMessage> email_messages;
-    static util::CryptoRegistry<RecipientGroupId, comms::EmailRecipientGroup> email_rgs;
+    static util::CryptoRegistry<ChannelId, comms::BaseChannel> channels;
+    static util::CryptoRegistry<MessageId, comms::BaseMessage> messages;
+    static util::CryptoRegistry<RecipientGroupId, comms::BaseRecipientGroup> rgroups;
 } // namespace registries
 
 

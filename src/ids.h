@@ -10,12 +10,12 @@ class AttachmentId : public util::GlobalId<AttachmentId> {
 class ChannelId : public util::GlobalId<ChannelId> {
         static std::unordered_set<std::string> registered_ids;
 };
-class RecipientGroupId : public util::GlobalId<ChannelId> {
+class RecipientGroupId : public util::GlobalId<RecipientGroupId> {
         static std::unordered_set<std::string> registered_ids;
 };
-class MessageId : public util::GlobalId<ChannelId> {
+class MessageId : public util::GlobalId<MessageId> {
         static std::unordered_set<std::string> registered_ids;
 };
-class ProtocolId : public util::GlobalId<ChannelId> {
+class ProtocolId : public util::GlobalId<ProtocolId> {
         static std::unordered_set<std::string> registered_ids;
 };
