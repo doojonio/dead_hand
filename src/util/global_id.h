@@ -2,6 +2,9 @@
 #include <unordered_set>
 #include <string>
 
+#include <format>
+#include <assert.h>
+
 namespace util {
     template <typename TId>
     class GlobalId {

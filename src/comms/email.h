@@ -151,6 +151,7 @@ namespace comms {
         }
 
         void send(std::unique_ptr<BaseMessage> msg) override;
+        void send(std::shared_ptr<EmailMessage> msg);
 
     };
 
