@@ -23,10 +23,6 @@ target_link_libraries(
         CURL::libcurl
         magic_enum::magic_enum
         mailio
-        OpenSSL::SSL
-        Boost::system
-        Boost::date_time
-        Boost::regex
 )
 
 target_include_directories(
