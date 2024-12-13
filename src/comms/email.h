@@ -151,6 +151,7 @@ namespace comms {
         }
 
         void send(std::unique_ptr<BaseMessage> msg) override;
+
     };
 
 } // namespace app

@@ -10,13 +10,12 @@ namespace util {
 
         std::unordered_map<TId, std::unique_ptr<Crypted<T>>, util::GlobalIdHash<TId>> objects;
     public:
-        template<typename ...Args>
         void add(const std::string& id, std::unique_ptr<T> obj, Crypted<T>::DeFunc de) {
             objects[TId::register_id(id)] = std::make_unique<Crypted<T>>(std::move(obj), de);
         }
 
         std::unique_ptr<T> get(const TId& id) {
-            return objects[id]->decrypt();
+            return objects.at(id)->decrypt();
         }
     };
 

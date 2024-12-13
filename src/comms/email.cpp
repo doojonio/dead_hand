@@ -3,6 +3,8 @@
 #include <mailio/message.hpp>
 #include <mailio/smtp.hpp>
 #include <mailio/mime.hpp>
+#include <memory>
+#include "util/pointers.h"
 
 #include <iostream>
 #include "email.h"
@@ -11,8 +13,13 @@
 
 namespace comms {
     void EmailChannel::send(std::unique_ptr<BaseMessage> bmsg) {
-        std::cout << "TEST TEST" << std::endl;
-        // auto emsg = std::dynamic_pointer_cast<EmailMessage>(std::move(bmsg));
+        // auto emsg = std::dynamic_pointer_cast<EmailMessage>(std::shared_ptr(std::move(bmsg)));
+        auto emsg = cast_u<EmailMessage>(std::move(bmsg));
+
+        std::cout << emsg->subject << std::endl;
+        std::cout << emsg->body << std::endl;
+
+        // auto rgroup = cast_u<EmailRecipientGroup>(registries::rgroups.get(emsg->rgroup));
 
         // mailio::message msg;
 
