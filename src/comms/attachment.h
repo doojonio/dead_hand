@@ -13,7 +13,7 @@ namespace comms {
         std::string mime;
         util::Url url;
         Attachment(const json& j);
-        [[nodiscard]] inline std::string ser();
+        [[nodiscard]] std::string ser();
         [[nodiscard]] static std::unique_ptr<Attachment> de(const std::string& s);
     };
 } // namespace comms

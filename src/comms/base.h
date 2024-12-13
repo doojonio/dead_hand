@@ -3,7 +3,6 @@
 
 #include <memory>
 #include "nlohmann/json.hpp"
-#include "util/serializable.h"
 
 using json = nlohmann::json;
 

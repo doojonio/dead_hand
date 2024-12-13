@@ -6,15 +6,11 @@
 namespace util {
     class Email {
     public:
-        inline Email(std::string value) : value(value) {
-            validate();
-        }
-
+        Email(std::string value);
         [[nodiscard]] std::string get() const;
 
     private:
         std::string value;
-
         void validate();
     };
 } // namespace email

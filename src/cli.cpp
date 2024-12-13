@@ -2,6 +2,11 @@
 #include "util/www.h"
 
 
+Cli::Cli(std::string name, std::string version)
+    : parser(argparse::ArgumentParser(name, version)) {
+    build_args();
+};
+
 void Cli::build_args() {
     parser.add_argument("--url").help("preferred base url");
 };

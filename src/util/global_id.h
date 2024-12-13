@@ -3,7 +3,6 @@
 #include <string>
 
 #include <format>
-#include <assert.h>
 
 namespace util {
     template <typename TId>
@@ -33,7 +32,7 @@ namespace util {
         };
 
         [[nodiscard]] inline std::string get() const {
-            assert(value != ""); return value;
+            return value;
         }
 
         inline bool operator==(const GlobalId& other) const {

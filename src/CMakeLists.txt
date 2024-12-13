@@ -9,6 +9,7 @@ set(
     src/util/email.cpp
     src/util/crypto.cpp
     src/comms/email.cpp
+    src/comms/attachment.cpp
     src/registries.cpp
 
     PARENT_SCOPE

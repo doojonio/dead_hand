@@ -14,7 +14,6 @@
 #include "comms/exc.h"
 #include "ids.h"
 #include "util/email.h"
-#include "util/serializable.h"
 #include "util/www.h"
 
 using json = nlohmann::json;

@@ -130,7 +130,7 @@ namespace comms {
     }
 
     void EmailChannel::send(std::unique_ptr<BaseMessage> bmsg) {
-        return send(cast_u<EmailMessage>(std::move(bmsg)));
+        return send(util::cast_u<EmailMessage>(std::move(bmsg)));
     }
     void EmailChannel::send(std::shared_ptr<EmailMessage> emsg) {
         auto rgroup = registries::rgroups.get<EmailRecipientGroup>(emsg->rgroup);
@@ -149,6 +149,6 @@ namespace comms {
         // // ));
         // // msg.attach(atts);
 
-        conn.submit(msg);
+        // conn.submit(msg);
     }
 }

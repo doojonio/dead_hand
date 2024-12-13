@@ -13,10 +13,12 @@ namespace util {
         Crypted<T>::DeFunc get_de_func(std::true_type is_same_types) {
             return InType::de;
         };
+
         template<typename InType>
         Crypted<T>::DeFunc get_de_func(std::false_type is_same_types) {
             return InType::de_base;
         };
+
     public:
         template<typename InType, typename ...Args>
         void add(const std::string& id, Args ...args) {
@@ -32,7 +34,7 @@ namespace util {
 
         template<typename InType>
         std::shared_ptr<InType> get(const TId& id) {
-            return cast_u<InType>(objects.at(id)->decrypt());
+            return util::cast_u<InType>(objects.at(id)->decrypt());
         }
     };
 
