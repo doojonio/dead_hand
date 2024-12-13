@@ -4,8 +4,9 @@
 
 namespace registries {
     static util::CryptoRegistry<ChannelId, comms::BaseChannel> channels;
-    static util::CryptoRegistry<MessageId, comms::BaseMessage> messages;
     static util::CryptoRegistry<RecipientGroupId, comms::BaseRecipientGroup> rgroups;
+    static util::CryptoRegistry<AttachmentId, comms::Attachment> attachments;
+    static util::CryptoRegistry<MessageId, comms::BaseMessage> messages;
 } // namespace registries
 
 

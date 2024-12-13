@@ -20,16 +20,16 @@ constexpr std::string INCOMPILED_URL = "file:///asdjkk";
 
 void tttt(const util::Url& url) {
     auto j = nlohmann::json::parse(std::ifstream(url.get_path().value()));
-    registries::channels.add("ch_email", std::make_unique<comms::EmailChannel>(j["channels"]["ch_email"]), comms::EmailChannel::de_base);
-    registries::rgroups.add("rg_email", std::make_unique<comms::EmailRecipientGroup>(j["recipients_groups"]["rg_email"]), comms::EmailRecipientGroup::de_base);
-    AttachmentId::register_id("tzuyu_image.jpg");
-    registries::messages.add("msg_email", std::make_unique<comms::EmailMessage>(j["messages"]["msg_email"]), comms::EmailMessage::de_base);
+    registries::channels.add<comms::EmailChannel>("ch_email", j["channels"]["ch_email"]);
+    registries::rgroups.add<comms::EmailRecipientGroup>("rg_email", j["recipients_groups"]["rg_email"]);
+    registries::attachments.add<comms::Attachment>("tzuyu_image.jpg", j["attachments"]["tzuyu_image.jpg"]);
+    registries::messages.add<comms::EmailMessage>("msg_email", j["messages"]["msg_email"]);
 
     // MessageId::register_id("msg_email");
     // RecipientGroupId::register_id("rg_email");
 
     auto ch = registries::channels.get(ChannelId(std::string("ch_email")));
-    auto rg = registries::rgroups.get(RecipientGroupId(std::string("rg_email")));
+    // auto rg = registries::rgroups.get(RecipientGroupId(std::string("rg_email")));
     // auto msg = registries::messages.get(MessageId(std::string("ch_email")));
     // auto att = comms::Attachment(j["attachments"]["tzuyu_image.jpg"]);
     // auto ech = comms::EmailChannel(j["channels"]["ch_email"]);
