@@ -18,7 +18,7 @@
 constexpr std::string NAME = "dead_hand";
 constexpr std::string INCOMPILED_URL = "file:///asdjkk";
 
-void tttt(const util::Url& url) {
+void tttt(const util::www::Url& url) {
     auto j = nlohmann::json::parse(std::ifstream(url.get_path().value()));
     registries::channels.add<comms::EmailChannel>("ch_email", j["channels"]["ch_email"]);
     registries::rgroups.add<comms::EmailRecipientGroup>("rg_email", j["recipients_groups"]["rg_email"]);
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    util::Url cfg_url(INCOMPILED_URL);
+    util::www::Url cfg_url(INCOMPILED_URL);
     if (auto url = cli.get_url()) {
         cfg_url = url.value();
     }

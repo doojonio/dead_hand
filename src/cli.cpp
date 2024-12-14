@@ -1,5 +1,5 @@
 #include "cli.h"
-#include "util/www.h"
+#include "util/www/url.h"
 
 
 Cli::Cli(std::string name, std::string version)
@@ -15,10 +15,10 @@ void Cli::parse_args(int argc, char* argv[]) {
     parser.parse_args(argc, argv);
 };
 
-std::optional<util::Url> Cli::get_url() const {
+std::optional<util::www::Url> Cli::get_url() const {
     if (auto val = parser.present<std::string>("--url")) {
         try {
-            return util::Url(val.value());
+            return util::www::Url(val.value());
         }
         catch (std::invalid_argument& e) {
             return std::nullopt;

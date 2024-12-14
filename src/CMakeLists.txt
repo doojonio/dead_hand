@@ -5,8 +5,9 @@ set(
 
     src/main.cpp
     src/cli.cpp
-    src/util/www.cpp
-    src/util/email.cpp
+    src/util/www/email.cpp
+    src/util/www/url.cpp
+    src/util/www/host.cpp
     src/util/crypto.cpp
     src/comms/email.cpp
     src/comms/attachment.cpp

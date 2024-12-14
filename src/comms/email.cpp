@@ -99,9 +99,9 @@ namespace comms {
     };
 
     EmailChannel::EmailChannel(const json& j) :
-        host(util::Host(j.at("host").get<std::string>())),
+        host(util::www::Host(j.at("host").get<std::string>())),
         port(j.at("port").get<uint>()),
-        email(util::Email(j.at("email").get<std::string>())),
+        email(util::www::Email(j.at("email").get<std::string>())),
         login(j.at("auth_login").get<std::string>()),
         pass(j.at("auth_pass").get<std::string>()),
         timeout_ms(

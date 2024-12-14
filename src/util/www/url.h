@@ -1,29 +1,10 @@
 #pragma once
 
-#include <string>
-#include <unordered_map>
-#include <regex>
-
 #include <cpr/cpr.h>
+#include <string>
 #include <curl/curl.h>
 
-namespace util {
-    class Host {
-    public:
-        inline Host(std::string value) : value(value) {
-            std::regex re("^[^\\d.][\\w.]+"); // I don't care
-            if (!std::regex_match(value, re)) {
-                throw std::invalid_argument(std::format("invalid host: {}", value));
-            }
-        };
-
-        [[nodiscard]] inline std::string get() const {
-            return value;
-        };
-    private:
-        std::string value;
-    };
-
+namespace util::www {
     class Url {
     public:
         inline Url(std::string value_) : value(std::move(value_)) {
@@ -57,12 +38,5 @@ namespace util {
         void parse_value();
     };
 
-    enum class MimeType {
-        VIDEO_MP4,
-    };
 
-    const std::unordered_map<MimeType, std::string> MIME_STRINGS
-    {
-        {MimeType::VIDEO_MP4, "video/mp4"},
-    };
-}
+} // namespace www::util

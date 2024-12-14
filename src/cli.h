@@ -5,7 +5,7 @@
 
 #include <argparse/argparse.hpp>
 
-#include "util/www.h"
+#include "util/www/url.h"
 
 class Cli {
     argparse::ArgumentParser parser;
@@ -13,7 +13,7 @@ class Cli {
 public:
     Cli(std::string name, std::string version);
     void parse_args(int argc, char* argv[]);
-    std::optional<util::Url> get_url() const;
+    std::optional<util::www::Url> get_url() const;
 
     friend auto& operator<<(std::ostream& os, Cli& cli) {
         os << cli.parser;

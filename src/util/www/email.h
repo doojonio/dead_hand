@@ -3,7 +3,7 @@
 #include <string>
 
 
-namespace util {
+namespace util::www {
     class Email {
     public:
         Email(std::string value);

@@ -13,8 +13,8 @@
 #include "comms/base.h"
 #include "comms/exc.h"
 #include "ids.h"
-#include "util/email.h"
-#include "util/www.h"
+#include "util/www/email.h"
+#include "util/www/host.h"
 
 using json = nlohmann::json;
 
@@ -22,7 +22,7 @@ namespace comms {
 
     struct EmailRecipientGroup : public BaseRecipientGroup {
         std::string name;
-        std::vector<util::Email> emails;
+        std::vector<util::www::Email> emails;
         [[nodiscard]] std::string ser();
         [[nodiscard]] static std::unique_ptr<EmailRecipientGroup> de(const std::string& s);
         [[nodiscard]] static std::unique_ptr<BaseRecipientGroup> de_base(const std::string& s);
@@ -45,9 +45,9 @@ namespace comms {
     class EmailChannel : public BaseChannel {
         static const int DEFAULT_TIMEOUT = 10000;
 
-        util::Host host;
+        util::www::Host host;
         uint port;
-        util::Email email;
+        util::www::Email email;
         std::string login;
         std::string pass;
         int timeout_ms;

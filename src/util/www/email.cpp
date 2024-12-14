@@ -1,16 +1,15 @@
-#include "util/email.h"
 #include "email.h"
 
-namespace util {
+namespace util::www {
     Email::Email(std::string value) : value(value) {
         validate();
     }
-    std::string util::Email::get() const {
+    std::string Email::get() const {
         return value;
     }
 
 
-    void util::Email::validate() {
+    void Email::validate() {
         // TODO: impl
     }
 
