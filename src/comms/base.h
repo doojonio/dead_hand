@@ -2,9 +2,6 @@
 #include "ids.h"
 
 #include <memory>
-#include "nlohmann/json.hpp"
-
-using json = nlohmann::json;
 
 namespace comms
 {

@@ -8,23 +8,12 @@ namespace util {
     template<typename TId, typename T>
     class CryptoRegistry {
         std::unordered_map<TId, std::unique_ptr<Crypted<T>>, util::GlobalIdHash<TId>> objects;
-
-        template<typename InType>
-        Crypted<T>::DeFunc get_de_func(std::true_type is_same_types) {
-            return InType::de;
-        };
-
-        template<typename InType>
-        Crypted<T>::DeFunc get_de_func(std::false_type is_same_types) {
-            return InType::de_base;
-        };
-
     public:
         template<typename InType, typename ...Args>
         void add(const std::string& id, Args ...args) {
             objects[TId::register_id(id)] = std::make_unique<Crypted<T>>(
                 std::make_unique<InType>(std::forward<Args>(args)...),
-                get_de_func<InType>((std::is_same<InType, T>()))
+                &InType::template de<T>
             );
         }
 

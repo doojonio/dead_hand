@@ -14,6 +14,9 @@ namespace comms {
         util::www::Url url;
         Attachment(const json& j);
         [[nodiscard]] std::string ser();
-        [[nodiscard]] static std::unique_ptr<Attachment> de(const std::string& s);
+        template <typename TReturn>
+        [[nodiscard]] static std::unique_ptr<TReturn> de(const std::string& s) {
+            return std::make_unique<Attachment>(json::parse(s));
+        };
     };
 } // namespace comms

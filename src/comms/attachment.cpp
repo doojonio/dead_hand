@@ -17,7 +17,4 @@ namespace comms {
         return j.dump();
     };
 
-    [[nodiscard]] std::unique_ptr<Attachment> Attachment::de(const std::string& s) {
-        return std::make_unique<Attachment>(json::parse(s));
-    };
 } // namespace comms

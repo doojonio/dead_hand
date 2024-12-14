@@ -26,14 +26,6 @@ namespace comms {
         return j.dump();
     };
 
-    [[nodiscard]] std::unique_ptr<EmailRecipientGroup> EmailRecipientGroup::de(const std::string& s) {
-        return std::make_unique<EmailRecipientGroup>(json::parse(s));
-    };
-
-    [[nodiscard]] std::unique_ptr<BaseRecipientGroup> EmailRecipientGroup::de_base(const std::string& s) {
-        return de(s);
-    };
-
     EmailRecipientGroup::EmailRecipientGroup(const json& j) : name(j.at("name").get<std::string>()) {
         for (auto& e : j["emails"]) {
             emails.emplace_back(e);
@@ -68,14 +60,6 @@ namespace comms {
         return j.dump();
     };
 
-    [[nodiscard]] std::unique_ptr<EmailMessage> EmailMessage::de(const std::string& s) {
-        return std::make_unique<EmailMessage>(json::parse(s));
-    };
-
-    [[nodiscard]] std::unique_ptr<BaseMessage> EmailMessage::de_base(const std::string& s) {
-        return de(s);
-    };
-
 
     [[nodiscard]] std::string EmailChannel::ser() {
         auto j = json{
@@ -88,14 +72,6 @@ namespace comms {
         };
 
         return j.dump();
-    };
-
-    [[nodiscard]] std::unique_ptr<EmailChannel> EmailChannel::de(const std::string& s) {
-        return std::make_unique<EmailChannel>(json::parse(s));
-    };
-
-    [[nodiscard]] std::unique_ptr<BaseChannel> EmailChannel::de_base(const std::string& s) {
-        return de(s);
     };
 
     EmailChannel::EmailChannel(const json& j) :

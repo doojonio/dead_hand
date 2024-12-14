@@ -24,9 +24,13 @@ namespace comms {
         std::string name;
         std::vector<util::www::Email> emails;
         [[nodiscard]] std::string ser();
-        [[nodiscard]] static std::unique_ptr<EmailRecipientGroup> de(const std::string& s);
-        [[nodiscard]] static std::unique_ptr<BaseRecipientGroup> de_base(const std::string& s);
         EmailRecipientGroup(const json& j);
+
+        template<typename TReturn>
+        [[nodiscard]] static std::unique_ptr<TReturn> de(const std::string& s) {
+            return std::make_unique<EmailRecipientGroup>(json::parse(s));
+        };
+
     };
 
     struct EmailMessage : public BaseMessage {
@@ -38,8 +42,12 @@ namespace comms {
 
         EmailMessage(const json& j);
         [[nodiscard]] std::string ser();
-        [[nodiscard]] static std::unique_ptr<EmailMessage> de(const std::string& s);
-        [[nodiscard]] static std::unique_ptr<BaseMessage> de_base(const std::string& s);
+
+        template <typename TReturn>
+        [[nodiscard]] static std::unique_ptr<TReturn> de(const std::string& s) {
+            return std::make_unique<EmailMessage>(json::parse(s));
+        };
+
     };
 
     class EmailChannel : public BaseChannel {
@@ -54,11 +62,14 @@ namespace comms {
         mailio::smtps conn;
     public:
         [[nodiscard]] std::string ser();
-        [[nodiscard]] static std::unique_ptr<EmailChannel> de(const std::string& s);
-        [[nodiscard]] static std::unique_ptr<BaseChannel> de_base(const std::string& s);
         EmailChannel(const json& j);
         void send(std::unique_ptr<BaseMessage> msg) override;
         void send(std::shared_ptr<EmailMessage> msg);
+
+        template <typename TReturn>
+        [[nodiscard]] static std::unique_ptr<TReturn> de(const std::string& s) {
+            return std::make_unique<EmailChannel>(json::parse(s));
+        };
 
     };
 
