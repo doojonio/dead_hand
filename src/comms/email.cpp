@@ -113,10 +113,13 @@ namespace comms {
 
         mailio::message msg;
 
-        msg.from(mailio::mail_address("dead_hand", email.get()));
-        // msg.add_recipient(rgroup->mgroup().members.at(0));
+        msg.from(email);
         msg.subject(emsg->subject);
         msg.content(emsg->body);
+
+        for (const auto& email : rgroup->emails) {
+            msg.add_recipient(email);
+        }
 
         // // auto iatstream = std::ifstream(at.url.get_path().value(), std::ios::binary);
         // // std::list<std::tuple<std::istream&, std::string, mailio::message::content_type_t>> atts;

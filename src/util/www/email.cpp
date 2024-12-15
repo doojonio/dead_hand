@@ -8,6 +8,10 @@ namespace util::www {
         return value;
     }
 
+    Email::operator mailio::mail_address() const {
+        return mailio::mail_address("", value);
+    }
+
 
     void Email::validate() {
         // TODO: impl
