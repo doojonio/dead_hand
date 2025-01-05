@@ -23,6 +23,7 @@ target_link_libraries(
         CURL::libcurl
         magic_enum::magic_enum
         mailio
+        cryptopp
 )
 
 target_include_directories(

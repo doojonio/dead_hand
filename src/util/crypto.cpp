@@ -1,5 +1,4 @@
 #include "crypto.h"
-#include <iostream>
 #include <memory>
 
 namespace util {

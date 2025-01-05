@@ -3,8 +3,6 @@
 #include <string>
 #include <memory>
 
-#include <iostream>
-
 namespace util {
     struct BaseCryptator {
         [[nodiscard]] virtual std::string encrypt(const std::string& str) = 0;
@@ -51,7 +49,7 @@ namespace util {
         DeFunc de;
     public:
 
-        inline Crypted(std::unique_ptr<T> v, DeFunc de = T::de) : value(cline.encrypt(v->ser())), de(de) { std::cout << value << std::endl; }
+        inline Crypted(std::unique_ptr<T> v, DeFunc de = T::de) : value(cline.encrypt(v->ser())), de(de) { }
         [[nodiscard]] inline std::unique_ptr<T> decrypt() { return de(cline.decrypt(value)); };
     };
 

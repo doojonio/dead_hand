@@ -1,9 +1,7 @@
 #include <format>
-#include <iostream>
 
 #include <memory>
 #include <cpr/cpr.h>
-#include <iostream>
 #include <magic_enum/magic_enum.hpp>
 
 #include "cli.h"
@@ -22,7 +20,8 @@ void tttt(const util::www::Url& url) {
     auto j = nlohmann::json::parse(std::ifstream(url.get_path().value()));
     registries::channels.add<comms::EmailChannel>("ch_email", j["channels"]["ch_email"]);
     registries::rgroups.add<comms::EmailRecipientGroup>("rg_email", j["recipients_groups"]["rg_email"]);
-    registries::attachments.add<comms::Attachment>("tzuyu_image.jpg", j["attachments"]["tzuyu_image.jpg"]);
+    registries::attachments.add<comms::Attachment>("kotone", j["attachments"]["kotone"]);
+    registries::attachments.add<comms::Attachment>("kotonepng", j["attachments"]["kotonepng"]);
     registries::messages.add<comms::EmailMessage>("msg_email", j["messages"]["msg_email"]);
 
     // MessageId::register_id("msg_email");

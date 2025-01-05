@@ -7,7 +7,6 @@
 #include <string>
 #include "util/pointers.h"
 
-#include <iostream>
 #include "email.h"
 #include <comms/base.h>
 #include "registries.h"
@@ -121,13 +120,12 @@ namespace comms {
             msg.add_recipient(email);
         }
 
-        // // auto iatstream = std::ifstream(at.url.get_path().value(), std::ios::binary);
-        // // std::list<std::tuple<std::istream&, std::string, mailio::message::content_type_t>> atts;
-        // // atts.push_back(std::make_tuple(
-        // //     std::ref(iatstream), std::string("tzuyu_im.jpg"), mailio::message::content_type_t(mailio::message::media_type_t::IMAGE, "jpg")
-        // // ));
-        // // msg.attach(atts);
+        for (auto& attachment_id : emsg->attachments) {
+            auto attachment = registries::attachments.get(attachment_id);
 
-        // conn.submit(msg);
+            msg.attach(attachment->get_content(), attachment->name, mailio::mime::media_type_t::IMAGE, "jpeg");
+        }
+
+        conn.submit(msg);
     }
 }

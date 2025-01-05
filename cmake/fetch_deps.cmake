@@ -14,3 +14,9 @@ FetchContent_Declare(mailio GIT_REPOSITORY https://github.com/karastojko/mailio.
                                 GIT_TAG 8a3b92361d244dbb1af722d1ad6dcaf321907936)
 FetchContent_MakeAvailable(mailio)
 
+FetchContent_Declare(
+  cryptopp
+  GIT_REPOSITORY https://github.com/weidai11/cryptopp.git
+  GIT_TAG        CRYPTOPP_8_9_0 # or any other version you want to use
+)
+FetchContent_MakeAvailable(cryptopp)
