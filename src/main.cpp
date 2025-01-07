@@ -13,30 +13,10 @@
 #include "comms/email.h"
 #include <nlohmann/json.hpp>
 
+#include "registries_manager.h"
+
 constexpr std::string NAME = "dead_hand";
 constexpr std::string INCOMPILED_URL = "file:///asdjkk";
-
-void tttt(const util::www::Url& url) {
-    auto j = nlohmann::json::parse(std::ifstream(url.get_path().value()));
-    registries::channels.add<comms::EmailChannel>("ch_email", j["channels"]["ch_email"]);
-    registries::rgroups.add<comms::EmailRecipientGroup>("rg_email", j["recipients_groups"]["rg_email"]);
-    registries::attachments.add<comms::Attachment>("kotone", j["attachments"]["kotone"]);
-    registries::attachments.add<comms::Attachment>("kotonepng", j["attachments"]["kotonepng"]);
-    registries::messages.add<comms::EmailMessage>("msg_email", j["messages"]["msg_email"]);
-
-    // MessageId::register_id("msg_email");
-    // RecipientGroupId::register_id("rg_email");
-
-    auto ch = registries::channels.get(ChannelId(std::string("ch_email")));
-    // auto rg = registries::rgroups.get(RecipientGroupId(std::string("rg_email")));
-    // auto msg = registries::messages.get(MessageId(std::string("ch_email")));
-    // auto att = comms::Attachment(j["attachments"]["tzuyu_image.jpg"]);
-    // auto ech = comms::EmailChannel(j["channels"]["ch_email"]);
-    // auto emes = comms::EmailMessage(j["messages"]["msg_email"]);
-    // auto rg = comms::EmailRecipientGroup();
-
-    ch->send(registries::messages.get(MessageId(std::string("msg_email"))));
-}
 
 int main(int argc, char* argv[]) {
     Cli cli(NAME, std::format("{}.{}", VERSION_MAJOR, VERSION_MINOR));
@@ -55,7 +35,9 @@ int main(int argc, char* argv[]) {
         cfg_url = url.value();
     }
 
-    tttt(cfg_url);
+    RegistriesManager mng;
+
+    mng.setup(cfg_url);
 
     return 0;
 }

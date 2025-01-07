@@ -24,6 +24,7 @@ target_link_libraries(
         magic_enum::magic_enum
         mailio
         cryptopp
+        eventpp
 )
 
 target_include_directories(

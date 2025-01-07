@@ -12,6 +12,7 @@ set(
     src/comms/email.cpp
     src/comms/attachment.cpp
     src/registries.cpp
+    src/registries_manager.cpp
 
     PARENT_SCOPE
 )
