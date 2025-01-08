@@ -13,6 +13,7 @@ set(
     src/comms/attachment.cpp
     src/registries.cpp
     src/registries_manager.cpp
+    src/protocols/dmsg.cpp
 
     PARENT_SCOPE
 )
