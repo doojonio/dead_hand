@@ -5,12 +5,13 @@
 #include <cstdint>
 #include <nlohmann/json.hpp>
 #include <ids.h>
+#include "protocols/base.h"
 
 using json = nlohmann::json;
 
 
 namespace protocols {
-    class DmsgProtocol {
+    class DmsgProtocol : public BaseProtocol {
         uint8_t delay = 0;
         uint8_t repeat = 0;
         uint8_t prolong = 0;

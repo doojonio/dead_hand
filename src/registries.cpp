@@ -5,5 +5,5 @@ namespace registries {
     util::CryptoRegistry<RecipientGroupId, comms::BaseRecipientGroup> rgroups;
     util::CryptoRegistry<AttachmentId, comms::Attachment> attachments;
     util::CryptoRegistry<MessageId, comms::BaseMessage> messages;
-    util::CryptoRegistry<ProtocolId, protocols::DmsgProtocol> protocols_dmsg;
+    util::CryptoRegistry<ProtocolId, protocols::BaseProtocol> protocols;
 } // namespace registries

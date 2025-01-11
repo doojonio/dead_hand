@@ -61,7 +61,7 @@ void RegistriesManager::setup_protocols(const json& j) {
     for (auto& [key, obj] : j["protocols"].items()) {
         auto type = obj.at("type").get<std::string>();
         if (type == "dmsg") {
-            registries::protocols_dmsg.add<protocols::DmsgProtocol>(key, obj);
+            registries::protocols.add<protocols::DmsgProtocol>(key, obj);
         }
         else {
             throw std::invalid_argument(std::format("{} is invalid protocol type", type));

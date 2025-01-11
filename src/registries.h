@@ -10,7 +10,7 @@ namespace registries {
     extern util::CryptoRegistry<RecipientGroupId, comms::BaseRecipientGroup> rgroups;
     extern util::CryptoRegistry<AttachmentId, comms::Attachment> attachments;
     extern util::CryptoRegistry<MessageId, comms::BaseMessage> messages;
-    extern util::CryptoRegistry<ProtocolId, protocols::DmsgProtocol> protocols_dmsg;
+    extern util::CryptoRegistry<ProtocolId, protocols::BaseProtocol> protocols;
 } // namespace registries
 
 

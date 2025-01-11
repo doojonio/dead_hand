@@ -1,5 +1,6 @@
 #include <unordered_map>
 #include <memory>
+#include <functional>
 #include "util/global_id.h"
 #include "util/crypto.h"
 #include "util/pointers.h"
@@ -19,6 +20,12 @@ namespace util {
 
         std::unique_ptr<T> get(const TId& id) {
             return objects.at(id)->decrypt();
+        }
+
+        void foreach(std::function<void(const TId&, std::unique_ptr<T>)> f) {
+            for (auto& [k, v] : objects) {
+                f(k, v->decrypt());
+            }
         }
 
         template<typename InType>

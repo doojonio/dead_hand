@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
     mng.setup(cfg_url);
 
     auto p = ProtocolId(std::string("all_in"));
-    registries::protocols_dmsg.get(
+    registries::protocols.get(
         p
     );
 
