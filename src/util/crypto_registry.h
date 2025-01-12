@@ -12,7 +12,8 @@ namespace util {
     public:
         template<typename InType, typename ...Args>
         void add(const std::string& id, Args ...args) {
-            objects[TId::register_id(id)] = std::make_unique<Crypted<T>>(
+            auto reg_id = TId::register_id(id);
+            objects[std::move(reg_id)] = std::make_unique<Crypted<T>>(
                 std::make_unique<InType>(std::forward<Args>(args)...),
                 &InType::template de<T>
             );

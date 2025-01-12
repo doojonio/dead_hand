@@ -1,5 +1,7 @@
 #include "president.h"
 #include <thread>
+#include <format>
+#include <iostream>
 
 
 auto binary_search_insert_pos(auto& v, auto& time) {
@@ -47,9 +49,15 @@ void President:: operator ()() {
     }
 
     // probably million race conditions there but похуй + нахуй this shit, im tired :c
+    int i = 0;
     while (!cbs.empty()) {
+        std::cout << std::format("iter: {}, ", i++) << std::endl << dump() << std::endl;
+
         auto [tp, cb] = std::move(cbs.front());
         cbs.erase(cbs.begin());
+
+        std::cout << "sleeping till: " << tp << std::endl;
+
         std::this_thread::sleep_until(tp);
 
         {
@@ -60,6 +68,7 @@ void President:: operator ()() {
         }
         rake_new_cbs();
     }
+    std::cout << "done" << std::endl;
 }
 
 void President::add_job(std::chrono::system_clock::time_point time, President::Job func) {
@@ -68,6 +77,17 @@ void President::add_job(std::chrono::system_clock::time_point time, President::J
     if (!running) {
         rake_new_cbs();
     }
+}
+
+std::string President::dump() {
+    std::stringstream ss;
+
+    int i = 0;
+    for (auto& pair : cbs) {
+        ss << "Job " << i++ << " " << pair.first << std::endl;
+    }
+
+    return ss.str();
 }
 
 std::chrono::system_clock::time_point President::get_tp_from_election(std::chrono::days elapsed_days) {

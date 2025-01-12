@@ -28,6 +28,7 @@ public:
     operator bool() const;
     void operator ()();
     void add_job(std::chrono::system_clock::time_point, Job);
+    std::string dump();
 
     std::chrono::system_clock::time_point
         get_tp_from_election(std::chrono::days elapsed_days);

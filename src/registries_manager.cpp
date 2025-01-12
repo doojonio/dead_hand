@@ -59,9 +59,11 @@ void RegistriesManager::setup_messages(const json& j) {
 
 void RegistriesManager::setup_protocols(const json& j) {
     for (auto& [key, obj] : j["protocols"].items()) {
-        auto type = obj.at("type").get<std::string>();
+        json obj_copy = obj;
+        obj_copy["id"] = key;
+        auto type = obj_copy.at("type").get<std::string>();
         if (type == "dmsg") {
-            registries::protocols.add<protocols::DmsgProtocol>(key, obj);
+            registries::protocols.add<protocols::DmsgProtocol>(key, std::move(obj_copy));
         }
         else {
             throw std::invalid_argument(std::format("{} is invalid protocol type", type));
