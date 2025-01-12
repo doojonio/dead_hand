@@ -12,6 +12,9 @@ namespace comms
     struct BaseMessage {
         ChannelId channel;
         RecipientGroupId rgroup;
+
+        virtual ChannelId get_channel_id() const = 0;
+
         virtual std::string ser() = 0;
         virtual ~BaseMessage() {};
     };

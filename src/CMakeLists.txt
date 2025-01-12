@@ -14,6 +14,7 @@ set(
     src/registries.cpp
     src/registries_manager.cpp
     src/protocols/dmsg.cpp
+    src/president.cpp
 
     PARENT_SCOPE
 )

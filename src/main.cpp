@@ -14,6 +14,7 @@
 #include <nlohmann/json.hpp>
 
 #include "registries_manager.h"
+#include "president.h"
 
 constexpr std::string NAME = "dead_hand";
 constexpr std::string INCOMPILED_URL = "file:///asdjkk";
@@ -39,10 +40,14 @@ int main(int argc, char* argv[]) {
 
     mng.setup(cfg_url);
 
-    auto p = ProtocolId(std::string("all_in"));
-    registries::protocols.get(
-        p
-    );
+    President presik;
+
+    registries::protocols.foreach([&presik](auto id, auto proto){
+        proto->init_president(std::move(id), presik);
+    });
+
+    presik();
+
 
     return 0;
 }

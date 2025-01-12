@@ -6,6 +6,7 @@
 #include <nlohmann/json.hpp>
 #include <ids.h>
 #include "protocols/base.h"
+#include "president.h"
 
 using json = nlohmann::json;
 
@@ -21,12 +22,16 @@ namespace protocols {
     public:
         DmsgProtocol(const json& j);
 
-        [[nodiscard]] std::string ser();
+        void init_president(ProtocolId, President&) override;
 
+        void activate_send_procedure();
+
+        [[nodiscard]] std::string ser();
         template <typename TReturn>
         [[nodiscard]] static std::unique_ptr<TReturn> de(const std::string& s) {
             return std::make_unique<DmsgProtocol>(json::parse(s));
         };
+
     };
 } // namespace protocols
 

@@ -1,4 +1,7 @@
 #include "dmsg.h"
+#include "registries.h"
+
+#include "util/pointers.h"
 
 
 namespace protocols {
@@ -14,6 +17,24 @@ namespace protocols {
         }
         for (const auto& msgid : j.at("alert_messages")) {
             alert_messages.emplace_back(msgid.get<std::string>());
+        }
+    }
+
+    void DmsgProtocol::init_president(ProtocolId proto_id, President& presik) {
+        presik.add_job(
+            presik.get_tp_from_election(std::chrono::days(delay)),
+            [proto_id](President&) {
+                auto proto = util::cast_u<DmsgProtocol>(registries::protocols.get(proto_id));
+                proto->activate_send_procedure();
+            }
+        );
+    }
+
+    void DmsgProtocol::activate_send_procedure() {
+        for (auto& msgid : messages) {
+            auto message = registries::messages.get(msgid);
+            auto channel = registries::channels.get(message->get_channel_id());
+            channel->send(std::move(message));
         }
     }
 

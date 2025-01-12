@@ -41,8 +41,10 @@ namespace comms {
         std::vector<AttachmentId> attachments;
 
         EmailMessage(const json& j);
-        [[nodiscard]] std::string ser();
 
+        ChannelId get_channel_id() const override;
+
+        [[nodiscard]] std::string ser();
         template <typename TReturn>
         [[nodiscard]] static std::unique_ptr<TReturn> de(const std::string& s) {
             return std::make_unique<EmailMessage>(json::parse(s));

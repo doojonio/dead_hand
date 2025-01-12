@@ -42,7 +42,11 @@ namespace comms {
                 attachments.emplace_back(at_id.get<std::string>());
             }
         }
-    };
+    }
+    ChannelId EmailMessage::get_channel_id() const {
+        return channel;
+    }
+;
 
     [[nodiscard]] std::string EmailMessage::ser() {
         std::vector<std::string> at_str(attachments.size());
