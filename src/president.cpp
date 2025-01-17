@@ -48,7 +48,8 @@ void President:: operator ()() {
         throw std::runtime_error("already running");
     }
 
-    // probably million race conditions there but похуй + нахуй this shit, im tired :c
+    // FIXME: probably million race conditions there but похуй + нахуй this shit, im tired :c
+    // TODO: logger
     int i = 0;
     while (!cbs.empty()) {
         std::cout << std::format("iter: {}, ", i++) << std::endl << dump() << std::endl;

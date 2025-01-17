@@ -46,7 +46,7 @@ namespace comms {
     ChannelId EmailMessage::get_channel_id() const {
         return channel;
     }
-;
+    ;
 
     [[nodiscard]] std::string EmailMessage::ser() {
         std::vector<std::string> at_str(attachments.size());
@@ -128,7 +128,7 @@ namespace comms {
         for (auto& attachment_id : emsg->attachments) {
             auto attachment = registries::attachments.get(attachment_id);
 
-            msg.attach(attachment->get_content(), attachment->name, mailio::mime::media_type_t::IMAGE, "jpeg");
+            msg.attach(attachment->get_content(), attachment->name, attachment->mime.get_category(), attachment->mime.get_type());
         }
 
         conn.submit(msg);

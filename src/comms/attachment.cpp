@@ -8,7 +8,7 @@
 namespace comms {
     Attachment::Attachment(const json& j) :
         name(j.at("name").get<std::string>()),
-        mime(j.at("mime").get<std::string>()),
+        mime(util::www::Mime(j.at("mime").get<std::string>())),
         url(util::www::Url(j.at("url").get<std::string>())) {
         if (j.contains("b64content")) {
             b64content = j.at("b64content").get<std::string>();
@@ -22,7 +22,7 @@ namespace comms {
     [[nodiscard]] std::string Attachment::ser() {
         auto j = json{
             {"name", name},
-            {"mime", mime},
+            {"mime", mime.get()},
             {"url", url.get()},
             {"b64content", b64content},
         };

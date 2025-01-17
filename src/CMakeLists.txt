@@ -15,6 +15,7 @@ set(
     src/registries_manager.cpp
     src/protocols/dmsg.cpp
     src/president.cpp
+    src/util/www/media.cpp
 
     PARENT_SCOPE
 )
