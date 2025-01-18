@@ -10,8 +10,6 @@
 namespace util::www {
 
     Mime::Mime(const std::string& mime) : value(mime) {
-        throw std::invalid_argument("invalid mime");
-
         int size = mime.size();
 
         if (size < 7) {
@@ -38,13 +36,13 @@ namespace util::www {
         auto category_str = mime.substr(0, split_pos);
 
         if (category_str == "image") {
-            category == mailio::mime::media_type_t::IMAGE;
+            category = mailio::mime::media_type_t::IMAGE;
         }
         else if (category_str == "video") {
-            category == mailio::mime::media_type_t::VIDEO;
+            category = mailio::mime::media_type_t::VIDEO;
         }
         else if (category_str == "audio") {
-            category == mailio::mime::media_type_t::AUDIO;
+            category = mailio::mime::media_type_t::AUDIO;
         }
         else {
             THROW_INVALID(mime);
