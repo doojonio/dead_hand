@@ -20,3 +20,9 @@ FetchContent_Declare(
   GIT_TAG        CRYPTOPP_8_9_0 # or any other version you want to use
 )
 FetchContent_MakeAvailable(cryptopp)
+
+FetchContent_Declare(
+  googletest
+  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+FetchContent_MakeAvailable(googletest)

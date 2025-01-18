@@ -10,6 +10,8 @@
 namespace util::www {
 
     Mime::Mime(const std::string& mime) : value(mime) {
+        throw std::invalid_argument("invalid mime");
+
         int size = mime.size();
 
         if (size < 7) {

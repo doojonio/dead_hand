@@ -11,12 +11,16 @@ include(cmake/find_deps.cmake)
 add_subdirectory(src)
 
 add_executable(
-    dead_hand
+    ${PROJECT_NAME}
     ${DH_SRC}
 )
 
+enable_testing()
+add_subdirectory(test)
+
+
 target_link_libraries(
-    dead_hand
+    ${PROJECT_NAME}
     PUBLIC
         nlohmann_json::nlohmann_json
         cpr::cpr
@@ -27,7 +31,7 @@ target_link_libraries(
 )
 
 target_include_directories(
-    dead_hand
+    ${PROJECT_NAME}
     PUBLIC
         ${PROJECT_BINARY_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}/src
