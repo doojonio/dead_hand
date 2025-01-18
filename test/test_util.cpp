@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
 #include "util/www/media.h"
 
-#include <iostream>
-
 
 TEST(TestMime, TestInvalidMime) {
 
